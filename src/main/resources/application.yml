@@ -1,7 +1,58 @@
 server:
-  port: 8901
+  port: ${SERVER_PORT:8901}
   servlet:
-    context-path: ${CONTEXT_PATH:/api/v1}
+    context-path: ${CONTEXT_PATH:/api}
+    application-display-name: ${spring.application.name}
+  error:
+    include-stacktrace: never
+    include-message: always
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10GB
+      max-request-size: 10GB
   application:
-    name: kloudy
+    name: @project.name@
+  config:
+    import:
+      - classpath:/kloudy.yml
+      - classpath:/management.yml
+      - classpath:/security.yml
+      - classpath:/eureka.yml
+      - classpath:/keycloak.yml
+      - classpath:/logging.yml
+      - classpath:/springdoc.yml
+  devtools:
+    restart:
+      enabled: false
+  jackson:
+    mapper:
+      accept-case-insensitive-enums: true
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      org:
+        hibernate:
+          envers:
+            audit_strategy: org.hibernate.envers.strategy.ValidityAuditStrategy
+            default_schema: history
+            audit_table_suffix: _history
+            revision_field_name: rev_id
+            revision_type_field_name: rev_type
+            store_data_at_delete: true
+      #            audit_table_prefix:
+      hibernate:
+        enable_lazy_load_no_trans: true
+        default_schema: kloudy
+    open-in-view: false
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always

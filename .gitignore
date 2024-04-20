@@ -35,3 +35,5 @@ build/
 /.logs/
 /.mvn/
 /.db/
+/.tmp/
+/.temp/

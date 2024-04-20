@@ -1,4 +1,5 @@
 -Duser.timezone=UTC
 -Dspring.devtools.add-properties=true
 -Dlogging.level.web=trace
+-Dlogging.level.sql=trace
 -Dlogging.level.org.springframework.security=trace
